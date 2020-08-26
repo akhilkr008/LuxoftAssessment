@@ -1,4 +1,4 @@
-# LuxoftAssessment
+## LuxoftAssessment - Spring Boot application for data management
 ##### This is a RESTful Spring Boot application which uses Hibernate to perform basic databse operations on the data which recieve through a .txt/.csv file. 
 ##### Follow the steps to run the application 
 1. Clone the code to file system
