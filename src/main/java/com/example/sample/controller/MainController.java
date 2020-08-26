@@ -31,7 +31,7 @@ public class MainController {
 	@Autowired
 	private FileStorageService fileStorageService;
 
-	/*
+	/**
 	 * REQUIRMENT-01 
 	 * Method for uploading a file using HTTP POST request, plain
 	 * text file with comma-separated data. Here both .txt/.csv file can be uploaded
@@ -44,7 +44,7 @@ public class MainController {
 
 	}
 
-	/*
+	/**
 	 * REQUIRMENT-02 
 	 * Method for access data persisted via HTTP GET request. Values
 	 * of single record to be provided for PRIMARY_KEY(id) supplied via request URL
@@ -64,7 +64,7 @@ public class MainController {
 
 	}
 
-	/*
+	/**
 	 * REQUIRMENT-03 
 	 * Method for remove record from storage via HTTP DELETE request 
 	 * by single PRIMARY_KEY (id) for reconciliation purpose

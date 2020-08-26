@@ -9,7 +9,6 @@ import javax.persistence.Version;
 @Entity
 public class DataSnapshot {
 	@Id
-	// @GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 
 	private String name;
