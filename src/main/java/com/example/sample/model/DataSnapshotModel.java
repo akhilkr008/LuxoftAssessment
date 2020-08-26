@@ -1,5 +1,9 @@
 package com.example.sample.model;
 
+/**
+ * Model class
+ *
+ */
 public class DataSnapshotModel {
 
 	private String id;

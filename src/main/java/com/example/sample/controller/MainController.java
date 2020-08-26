@@ -18,7 +18,9 @@ import com.example.sample.entity.DataSnapshot;
 import com.example.sample.services.DataSnapshotService;
 import com.example.sample.services.FileStorageService;
 
-/*Controller for performing the  data storing/retrieving/deleting operations */
+/**
+ * Controller for performing the data storing/retrieving/deleting operations
+ */
 @RestController
 @RequestMapping(path = "/datasnapshot")
 public class MainController {
@@ -32,9 +34,8 @@ public class MainController {
 	private FileStorageService fileStorageService;
 
 	/**
-	 * REQUIRMENT-01 
-	 * Method for uploading a file using HTTP POST request, plain
-	 * text file with comma-separated data. Here both .txt/.csv file can be uploaded
+	 * REQUIRMENT-01 Method for uploading a file using HTTP POST request, plain text
+	 * file with comma-separated data. Here both .txt/.csv file can be uploaded
 	 */
 	@PostMapping("/fileupload")
 	public @ResponseBody String uploadFile(@RequestParam("file") MultipartFile file) {
@@ -45,8 +46,7 @@ public class MainController {
 	}
 
 	/**
-	 * REQUIRMENT-02 
-	 * Method for access data persisted via HTTP GET request. Values
+	 * REQUIRMENT-02 Method for access data persisted via HTTP GET request. Values
 	 * of single record to be provided for PRIMARY_KEY(id) supplied via request URL
 	 */
 	@GetMapping(path = "/get/{id}")
@@ -56,17 +56,8 @@ public class MainController {
 
 	}
 
-	
-	@GetMapping(path = "/all")
-	public @ResponseBody Iterable<DataSnapshot> getAllDataSnapshots() {
-
-		return dataSnapshotRepository.findAll();
-
-	}
-
 	/**
-	 * REQUIRMENT-03 
-	 * Method for remove record from storage via HTTP DELETE request 
+	 * REQUIRMENT-03 Method for removing record from storage via HTTP DELETE request
 	 * by single PRIMARY_KEY (id) for reconciliation purpose
 	 */
 	@DeleteMapping(path = "/del/{id}")

@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-/*This controller enables the starting page to be index.html*/
+/**
+ * This controller enables the starting page to be index.html
+ */
 @Controller
 public class HomeController {
 	@RequestMapping(method = RequestMethod.GET, value = "/")

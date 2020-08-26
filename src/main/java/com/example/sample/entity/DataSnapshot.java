@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+/**
+ * Entity class
+ */
 @Entity
 public class DataSnapshot {
 	@Id
@@ -39,7 +42,6 @@ public class DataSnapshot {
 		this.description = description;
 	}
 	
-	@Version
 	public Calendar getTimestamp() {
 		return timestamp;
 	}

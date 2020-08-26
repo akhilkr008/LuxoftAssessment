@@ -13,12 +13,20 @@ import com.example.sample.DataSnapshotRepository;
 import com.example.sample.entity.DataSnapshot;
 import com.example.sample.model.DataSnapshotModel;
 
+/**
+ * Service class for saving the data to database
+ * 
+ */
 @Service
 public class DataSnapshotService {
 
 	@Autowired
 	private DataSnapshotRepository dataSnapshotRepository;
-
+	/**
+	 * Method for saving data to database
+	 * @param dsModel
+	 * @return
+	 */
 	public String add(DataSnapshotModel dsModel) {
 		DataSnapshot ds = new DataSnapshot();
 		ds.setId(dsModel.getId());
@@ -26,15 +34,15 @@ public class DataSnapshotService {
 		ds.setDescription(dsModel.getDescription());
 		Date parsedDate = null;
 		try {
-		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-		    parsedDate = dateFormat.parse(dsModel.getTimeStamp());
-		    
-		} catch(Exception e) { //this generic but you can control another types of exception
-		    // look the origin of excption 
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+			parsedDate = dateFormat.parse(dsModel.getTimeStamp());
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(parsedDate);
-		ds.setTimestamp(calendar );
+		ds.setTimestamp(calendar);
 		DataSnapshot result = dataSnapshotRepository.save(ds);
 		return result.getId();
 	}

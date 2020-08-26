@@ -3,7 +3,9 @@ package com.example.sample;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/*Spring boot application class*/
+/**
+ * Spring boot application class
+ */
 @SpringBootApplication
 public class DataSnapshotApplication {
 
