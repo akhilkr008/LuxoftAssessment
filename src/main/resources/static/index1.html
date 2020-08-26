@@ -1,0 +1,119 @@
+<html>
+<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head>
+<body>
+
+	<div>
+
+		<table>
+			<tr>
+				<td>File to upload:</td>
+				<td><input type="file" name="file" id="the-file" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" value="Upload" onclick="onClick()" /></td>
+			</tr>
+		</table>
+
+	</div>
+
+	<div>
+		<table>
+			<tr>
+				<td>Enter id to retrieve</td>
+				<td><input type="text" name="id" id="get" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" value="Get details"
+					onclick="onDetails()" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div id="data"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div>
+		<table>
+			<tr>
+				<td>Enter id to delete</td>
+				<td><input type="text" name="delete" id="delete" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" value="Delete"
+					onclick="onDelete()" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div id="status"></div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		function onClick() {
+			var fileInput = document.getElementById('the-file');
+			var file = fileInput.files[0];
+			var formData = new FormData();
+			formData.append('file', file);
+			var xhr = new XMLHttpRequest();
+			// Add any event handlers here...
+			xhr.open('POST', '/datasnapshot/uploadFile', true);
+			xhr.send(formData);
+		}
+
+		function onDetails() {
+			var fileInput = document.getElementById('get');
+			var file = fileInput.value;
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					if (!JSON.parse(this.response)) {
+						document.getElementById('data').innerHTML = "Data does not exist"
+					} else {
+						var data = JSON.parse(this.response)
+						document.getElementById('data').innerHTML = "Id: "
+								+ data.id + " <br />Name: " + data.name
+								+ " <br />Description: " + data.description
+								+ " <br />Timestamp: " + data.timestamp;
+					}
+				}
+			};
+			xhttp.open('GET', '/datasnapshot/all/' + file, true);
+			xhttp.setRequestHeader("Content-type", "application/json");
+			xhttp.send();
+		}
+		function onDelete() {
+			var fileInput = document.getElementById('delete');
+			var file = fileInput.value;
+			debugger
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					console.log(this.response)
+					document.getElementById('status').innerHTML = this.response
+					/* if (!JSON.parse(this.response)) {
+						document.getElementById('data').innerHTML = "Data does not exist"
+					} else {
+						var data = JSON.parse(this.response)
+						document.getElementById('data').innerHTML = "data";
+					} */
+				}
+			};
+			xhttp.open('DELETE', '/datasnapshot/delete/' + file, true);
+			xhttp.setRequestHeader("Content-type", "application/json");
+			xhttp.send();
+		}
+	</script>
+
+
+</body>
+</html>

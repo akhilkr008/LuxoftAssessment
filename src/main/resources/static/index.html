@@ -1,0 +1,181 @@
+<html lang="en">
+
+<head>
+<title>Spring boot app</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+#preview span {
+	font-size: 12px;
+}
+
+#preview h4 {
+	font-size: 16px;
+	font-weight: 500;
+	margin: 5px 0 10px 0;
+}
+
+.form-group label {
+	width: 100%;
+	float: left;
+	margin-top: 15;
+}
+
+input[type='file'], input[type='text'] {
+	width: 59%;
+	float: left;
+}
+
+input[type='button'] {
+	background: #00BFA5;
+	border: 0;
+	outline: 0;
+	color: #ffffff;
+	width: 40%;
+	float: right;
+}
+</style>
+</head>
+
+<body>
+	<!-- Modal -->
+	<div class="modal fade" id="preview" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Details</h4>
+				</div>
+				<div class="modal-body">
+					<span>ID</span>
+					<h4 class="data_id"></h4>
+					<span>Name</span>
+					<h4 class="data_name"></h4>
+					<span>Description</span>
+					<h4 class="data_description"></h4>
+					<span>Timestamp</span>
+					<h4 class="data_timestamp"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="jumbotron text-center">
+		<h1>Data Store/Retrieve/Delete</h1>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="form-group">
+					<label for="usr">File to Upload:</label> <input type="file"
+						accept=".csv, text/plain" class="form-control" name="file" id="upload" /> <input
+						type="button" value="Upload" class="form-control"
+						onclick="onClick()" /> <span id="upload_response"></span>
+				</div>
+				<div class="form-group">
+					<label for="pwd">Enter ID to Retrieve:</label> <input type="text"
+						class="form-control" name="id" id="get" /> <input type="button"
+						value="Get Details" class="form-control" onclick="onFetch()" />
+					<span id="fetch_response"></span>
+				</div>
+				<div class="form-group">
+					<label for="pwd">Enter ID to Delete:</label> <input type="text"
+						class="form-control" name="delete" id="delete" /> <input
+						type="button" value="Delete" class="form-control"
+						onclick="onDelete()" /> <span id="delete_response"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function onClick() {
+			var file = $('#upload')[0].files[0];
+			if (file) {
+				var formData = new FormData();
+				formData.append('file', file);
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.response.message)
+						$('#upload_response').text(this.response);
+					}
+				};
+				xhr.open('POST', '/datasnapshot/fileupload', true);
+				xhr.send(formData);
+			} else {
+				$('#upload_response').text('No file selected');
+			}
+		}
+
+		function onFetch() {
+			var fileInput = $('#get');
+			var file = fileInput.val();
+			if (file) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if (!JSON.parse(this.response)) {
+							$('#fetch_response').text("Record does not exist");
+						} else {
+							var data = JSON.parse(this.response);
+							$('#preview').modal('show');
+							data.id ? $('#preview .data_id').text(data.id) : $(
+									'#preview .data_id').text('-');
+							data.name ? $('#preview .data_name')
+									.text(data.name) : $('#preview .data_name')
+									.text('-');
+							data.description ? $('#preview .data_description')
+									.text(data.description) : $(
+									'#preview .data_description').text('-');
+							data.timestamp ? $('#preview .data_timestamp')
+									.text(data.timestamp) : $(
+									'#preview .data_timestamp').text('-');
+						}
+					}
+				};
+				xhttp.open('GET', '/datasnapshot/get/' + file, true);
+				xhttp.setRequestHeader("Content-type", "application/json");
+				xhttp.send();
+			} else {
+				$('#fetch_response').text("Please enter an id to proceed");
+			}
+		}
+
+		function onDelete() {
+			var fileInput = $('#delete');
+			var file = fileInput.val();
+			if (file) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						console.log(this.response)
+						$('#delete_response').text(this.response);
+					}
+				};
+				xhttp.open('DELETE', '/datasnapshot/del/' + file, true);
+				xhttp.setRequestHeader("Content-type", "application/json");
+				xhttp.send();
+			} else {
+				$('#delete_response').text("Please enter an id to delete");
+			}
+		}
+	</script>
+
+</body>
+
+</html>
