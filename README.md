@@ -8,7 +8,7 @@
 4. Change the database configuration in the "application.properties" file
 5. Build the application
 6. Run as Spring Boot App
-7. The application will be host in http://localhost:8080/ 
+7. The application will be running in http://localhost:8080/ 
 
 ##### The sample input data will look like below:
 ######    PRIMARY_KEY,NAME,DESCRIPTION,UPDATED_TIMESTAMP
