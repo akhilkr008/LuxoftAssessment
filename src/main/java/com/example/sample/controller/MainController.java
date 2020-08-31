@@ -2,6 +2,8 @@ package com.example.sample.controller;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.sample.DataSnapshotApplication;
 import com.example.sample.DataSnapshotRepository;
 import com.example.sample.entity.DataSnapshot;
 import com.example.sample.services.DataSnapshotService;
@@ -24,6 +27,8 @@ import com.example.sample.services.FileStorageService;
 @RestController
 @RequestMapping(path = "/datasnapshot")
 public class MainController {
+	private static final Logger logger = LoggerFactory.getLogger(DataSnapshotApplication.class);
+	
 	@Autowired
 	private DataSnapshotRepository dataSnapshotRepository;
 
@@ -39,8 +44,9 @@ public class MainController {
 	 */
 	@PostMapping("/fileupload")
 	public @ResponseBody String uploadFile(@RequestParam("file") MultipartFile file) {
-
+		logger.info("starting file upload");
 		String result = fileStorageService.save(file);
+		logger.info("Status: "+result);
 		return result;
 
 	}
